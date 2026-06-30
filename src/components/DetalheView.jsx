@@ -71,11 +71,17 @@ export default function DetalheView({ active, detalheData, onBack, onConfirmar }
               <div className="table-wrap">
                 <table>
                   <thead>
-                    <tr><th>Produto</th><th>Qtde</th><th>Unit.</th><th>Subtotal</th></tr>
+                    <tr><th>Foto</th><th>Produto</th><th>Qtde</th><th>Unit.</th><th>Subtotal</th></tr>
                   </thead>
                   <tbody>
                     {c.itens.map((i, idx) => (
                       <tr key={idx}>
+                        <td style={{ width: 56 }}>
+                          {i.produto.foto
+                            ? <img src={i.produto.foto} alt={i.produto.nome} style={{ width: 44, height: 44, objectFit: 'cover', borderRadius: 6 }} />
+                            : <div style={{ width: 44, height: 44, background: '#f0ebe5', borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20 }}>🍽️</div>
+                          }
+                        </td>
                         <td>{i.produto.nome}</td>
                         <td>{i.quantidade}</td>
                         <td>{fmt(i.valor_unitario)}</td>

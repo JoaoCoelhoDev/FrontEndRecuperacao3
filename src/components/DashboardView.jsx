@@ -5,6 +5,7 @@ import { fmt, fmtHora } from '../utils.js';
 export default function DashboardView({ active, selectedIds, onToggleCard }) {
   const [comandas, setComandas] = useState(null);
   const [error, setError] = useState(null);
+  const [busca, setBusca] = useState('');
 
   const loadDashboard = useCallback(async () => {
     setError(null);
@@ -30,6 +31,23 @@ export default function DashboardView({ active, selectedIds, onToggleCard }) {
           <div style={{ flex: 1 }}></div>
           <button className="btn btn-outline btn-sm" onClick={loadDashboard}>↻ Atualizar</button>
         </div>
+
+        <div style={{ marginBottom: 18 }}>
+          <input
+            type="text"
+            placeholder="🔍 Buscar comanda pelo número/nome..."
+            value={busca}
+            onChange={e => setBusca(e.target.value)}
+            style={{
+              width: '100%', maxWidth: 360, padding: '10px 14px',
+              border: '2px solid #e0d8d0', borderRadius: 8, fontSize: 15,
+              outline: 'none',
+            }}
+            onFocus={e => e.target.style.borderColor = '#f5c518'}
+            onBlur={e => e.target.style.borderColor = '#e0d8d0'}
+          />
+        </div>
+
         <div className="comandas-grid">
           {error && (
             <div className="error-state" style={{ gridColumn: '1/-1' }}>⚠️ {error}</div>
@@ -43,7 +61,9 @@ export default function DashboardView({ active, selectedIds, onToggleCard }) {
               <div>Nenhuma comanda aberta no momento</div>
             </div>
           )}
-          {!error && comandas && comandas.map(c => (
+          {!error && comandas && comandas
+            .filter(c => !busca || c.comanda.toLowerCase().includes(busca.toLowerCase()))
+            .map(c => (
             <div
               key={c.id}
               className={`comanda-card ${selectedIds.has(c.id) ? 'selected' : ''}`}
