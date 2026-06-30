@@ -77,9 +77,11 @@ export default function DetalheView({ active, detalheData, onBack, onConfirmar }
                     {c.itens.map((i, idx) => (
                       <tr key={idx}>
                         <td style={{ width: 56 }}>
-                          {i.produto.foto
+                          {i.produto.foto && i.produto.foto.startsWith('http')
                             ? <img src={i.produto.foto} alt={i.produto.nome} style={{ width: 44, height: 44, objectFit: 'cover', borderRadius: 6 }} />
-                            : <div style={{ width: 44, height: 44, background: '#f0ebe5', borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20 }}>🍽️</div>
+                            : <div style={{ width: 44, height: 44, background: '#f0ebe5', borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 26 }}>
+                                {i.produto.foto || '🍽️'}
+                              </div>
                           }
                         </td>
                         <td>{i.produto.nome}</td>
